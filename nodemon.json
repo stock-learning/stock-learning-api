@@ -1,0 +1,18 @@
+{
+  "ignore": [],
+  "watch": [
+    "src",
+    "schema.graphql"
+  ],
+  "exec": "tsc -p . && node dist/app.js",
+  "ext": "ts",
+  "env": {
+    "DB_CONNECTION_STRING": "mongodb://localhost:27017/stock_learning_api",
+    "PORT": 3000,
+    "GRAPHIQL": true,
+    "RABBITMQ_CONNECTION_STRING": "amqp://localhost",
+    "API_QUEUE_NAME": "stock-learning-api",
+    "ANALYSER_QUEUE_NAME": "stock-learning-analyser",
+    "SCRAPPING_QUEUE_NAME": "stock-learning-scrapping"
+  }
+}
