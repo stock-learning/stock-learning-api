@@ -3,6 +3,7 @@ import helloWorldController from '../../controllers/helloworld/hello-world-contr
 import { Authentication } from "../../decorators/authentication";
 import { IResolver } from '../../graphql/iresolver';
 import { IHelloWorldModel } from "../../models/hello-world-model";
+import webScrappingStub from '../../stubs/web-scrapping-stub';
 
 class HelloGraphQLQueryResolver implements IResolver<any, Promise<IHelloWorldModel[]>> {
 
@@ -10,6 +11,8 @@ class HelloGraphQLQueryResolver implements IResolver<any, Promise<IHelloWorldMod
  
     @Authentication()
     async resolve(input: any, request: Request, response: Response): Promise<IHelloWorldModel[]> {
+        console.log('aqui');
+        webScrappingStub().syncInfomoneyIbvespa();
         return helloWorldController.fetchAllResources();
     }
 

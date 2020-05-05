@@ -17,4 +17,4 @@ HelloWorldSchema.methods.toResource = function (): IHelloWorldModel {
     return { ...this._doc }
 }
 
-export const HelloWorldDocument: Model<IHelloWorldDocument> = model<IHelloWorldDocument>('HelloWorld', HelloWorldSchema);
+export const HelloWorldDocument: Model<IHelloWorldDocument> = model<IHelloWorldDocument>('HelloWorld', HelloWorldSchema, 'hello_world');

@@ -13,6 +13,6 @@
     "RABBITMQ_CONNECTION_STRING": "amqp://localhost",
     "API_QUEUE_NAME": "stock-learning-api",
     "ANALYSER_QUEUE_NAME": "stock-learning-analyser",
-    "SCRAPPING_QUEUE_NAME": "stock-learning-scrapping"
+    "SCRAPPING_QUEUE_NAME": "stock-learning-web-scrapper"
   }
 }
