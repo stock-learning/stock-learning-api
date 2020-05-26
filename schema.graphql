@@ -1,20 +1,3 @@
-schema {
-    query: Query
-    mutation: Mutation
-}
-
 type Query {
-    helloGraphQLQuery: [HelloWorldType]
-}
-
-type Mutation {
-    helloGraphQLMutation(helloWorldInput: HelloWorldInput): HelloWorldType
-}
-
-input HelloWorldInput {
-    helloWorld: String
-}
-
-type HelloWorldType {
-    helloWorld: String
+    testeQuery: String
 }

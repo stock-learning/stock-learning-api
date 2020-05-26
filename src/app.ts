@@ -1,12 +1,11 @@
 import bodyParser from 'body-parser';
 import express from 'express';
-import database from "./infra/database";
-import rabbitMQ from './infra/rabbitmq';
+import { ConsumerMap, RabbitMQServer } from 'stock-learning-rabbitmq';
+import graphqlRouter from "./common/graphql/graphql-route";
+import { Database } from './common/infra/Database';
+import infomoneyIbovespaInitialLoad from "./consumers/infomoney-ibovespa-initial-load";
 import headerCommonsMiddleware from './middleware/header-commons-middleware';
 import internalServerErrorMiddleware from "./middleware/internal-server-error-middleware";
-import consumers from './rabbitmq/consumers';
-import graphqlRouter from "./routes/graphql-route";
-import analyserStub from './stubs/analyser-stub';
 
 
 const app = express();
@@ -18,19 +17,25 @@ app.use(graphqlRouter);
 
 app.use(internalServerErrorMiddleware);
 
-database
-    .connect()
+const consumers = ConsumerMap.builder()
+    .register(infomoneyIbovespaInitialLoad)
+    .build();
+
+Database.connect(process.env.DB_CONNECTION_STRING || '')
     .then(() => {
         console.info('Connected to MongoDB');
-        return rabbitMQ.connect();
+        return new Promise((accept) => accept());
     })
     .then(() => {
-        console.info('Connected to RabbitMQ');
-        rabbitMQ.setConsumers(consumers);
-        console.info('RabbitMQ message consumers are registered');
+        console.info('Registering RabbitMQ consumers');
+        return RabbitMQServer.createServer(process.env.RABBITMQ_CONNECTION_STRING || '')
+            .usingConsumers(consumers)
+            .listenToQueue('stock-learning-api');
+    })
+    .then(() => {
+        console.info('RabbitMQ API queue consumer is up and running');
         app.listen(process.env.PORT);
-        analyserStub().helloWorld({ helloWorld: 'toma no cu' })
-        console.info(`Server is up and running on port ${process.env.PORT}!`);
+        console.info(`API is up and running on port ${process.env.PORT}`);
     })
     .catch(err => {
         console.error('Something went wrong while initilizing server!');

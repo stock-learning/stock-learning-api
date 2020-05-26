@@ -1,10 +1,10 @@
-import { StockDataDocument } from '../../documents/stock-data-document';
-import { IConsumer } from '../../rabbitmq/iconsumer';
-import { IStockDataCollectionModel } from "../../models/stock-data-collection-model";
+import { IConsumer } from 'stock-learning-rabbitmq';
+import { StockDataDocument } from '../documents/stock-data-document';
+import { IStockDataCollectionModel } from "../models/stock-data-collection-model";
 
-export class PersistInfomoneyIbovespaHistoricDataConsumer implements IConsumer<IStockDataCollectionModel> {
+export class InfomoneyIbovespaInitialLoad implements IConsumer<IStockDataCollectionModel> {
 
-    consumerName = 'persist-infomoney-ibovespa-historic-data';
+    consumerName = 'infomoney-ibovespa-initial-load';
 
     public async consume(message: IStockDataCollectionModel): Promise<void> {
         if (message.stockData) {
@@ -24,4 +24,4 @@ export class PersistInfomoneyIbovespaHistoricDataConsumer implements IConsumer<I
 
 }
 
-export default new PersistInfomoneyIbovespaHistoricDataConsumer();
+export default new InfomoneyIbovespaInitialLoad();
