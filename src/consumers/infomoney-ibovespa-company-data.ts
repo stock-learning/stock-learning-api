@@ -8,10 +8,18 @@ export class InfomoneyIbovespaCompanyData implements IConsumer<any> {
     public async consume(message: any): Promise<void> {
         if (message.companyData && !!message.companyData.length) {
             try {
-                const validData = message.companyData.filter((cd: any) => !!cd && !!cd.initials && !!cd.infomoneyUrl);
-                await CompanyDataDocument.remove({})
-                await CompanyDataDocument.create(validData);
-            } catch(e) {
+                message.companyData
+                    .filter((cd: any) => !!cd && !!cd.initials)
+                    .forEach(async (cd: any) => {
+                        const existingDocument = await CompanyDataDocument.findOne({ initials: cd.initials });
+                        if (existingDocument) {
+                            existingDocument.updateWith(cd);
+                            await existingDocument.updateOne(existingDocument)
+                        } else {
+                            CompanyDataDocument.create(cd);
+                        }
+                    });
+            } catch (e) {
                 console.log(e);
             }
         }

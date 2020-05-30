@@ -2,12 +2,13 @@ import { Model, model, Schema, SchemaTypes } from 'mongoose';
 import { ICompanyDataModel } from './../models/company-data-model';
 import { IDocumentCommon } from './document-common';
 
-interface ICompanyDataDocument extends ICompanyDataModel, IDocumentCommon { }
+interface ICompanyDataDocument extends ICompanyDataModel, IDocumentCommon {
+    updateWith(data: any): void;
+}
 
 const CompanyDataSchema = new Schema(
     {
         initials: { type: SchemaTypes.String, required: true },
-        infomoneyUrl: { type: SchemaTypes.String, required: true },
         name: { type: SchemaTypes.String, required: false },
         type: { type: SchemaTypes.String, required: false },
         sector: { type: SchemaTypes.String, required: false },
@@ -18,13 +19,12 @@ const CompanyDataSchema = new Schema(
     }
 )
 
-CompanyDataSchema.methods.toResource = function (): ICompanyDataModel {
-    return { ...this._doc }
+CompanyDataSchema.methods.updateWith = function (data: any): void {
+    this._doc = { ...this._doc, ...data };
 }
 
-CompanyDataSchema.methods.getFullInfomoneyUrl = function (): string {
-    const informoneyUrl = this._doc.infomoneyUrl;
-    return `https://www.infomoney.com.br/cotacoes/${informoneyUrl}`;
+CompanyDataSchema.methods.toResource = function (): ICompanyDataModel {
+    return { ...this._doc }
 }
 
 export const CompanyDataDocument: Model<ICompanyDataDocument> = model<ICompanyDataDocument>(
