@@ -4,7 +4,8 @@ import { ConsumerMap, RabbitMQServer } from 'stock-learning-rabbitmq';
 import graphqlRouter from "./common/graphql/graphql-route";
 import { Database } from './common/infra/Database';
 import infomoneyIbovespaCompanyData from './consumers/infomoney-ibovespa-company-data';
-import infomoneyIbovespaInitialLoad from "./consumers/infomoney-ibovespa-historic-data";
+import infomoneyIbovespaHistoricData from "./consumers/infomoney-ibovespa-historic-data";
+import infomoneyIbovespaLiveUpdate from './consumers/infomoney-ibovespa-live-update';
 import headerCommonsMiddleware from './middleware/header-commons-middleware';
 import internalServerErrorMiddleware from "./middleware/internal-server-error-middleware";
 
@@ -20,7 +21,8 @@ app.use(internalServerErrorMiddleware);
 
 const consumers = ConsumerMap.builder()
     .register(infomoneyIbovespaCompanyData)
-    .register(infomoneyIbovespaInitialLoad)
+    .register(infomoneyIbovespaHistoricData)
+    .register(infomoneyIbovespaLiveUpdate)
     .build();
 
 Database.connect(process.env.DB_CONNECTION_STRING || '')

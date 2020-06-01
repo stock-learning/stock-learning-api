@@ -36,12 +36,33 @@ export class InfomoneyIbovespaHistoricData implements IConsumer<any> {
             return +str.replace(',', '.');
         }
 
-        const volumeToDouble = (str: string | undefined): number | undefined => {
+        const volumeToNumber = (str: string | undefined): number | undefined => {
             if (!str) {
                 return undefined;
             }
-            // TODO
-            return 0;
+            const handleSubStr = (subStr: string, zeros: string) => {
+                if (str.includes(subStr)) {
+                    const split = str.split(',');
+                    let aux = split[1].replace(subStr, '');
+                    if (aux.length === 1) {
+                        aux = `${aux}00`
+                    }
+                    if (aux.length === 2) {
+                        aux = `${aux}0`
+                    }
+                    if (aux.length === 3) {
+                        aux = `${aux}`
+                    }
+                    return +`${split[0]}${aux}`;
+                }
+            }
+            const result = handleSubStr('K', '') || handleSubStr('M', '000') || handleSubStr('B', '000000');
+            if (!result) {
+                console.warn(`Could not map ${str}`);
+                return undefined;
+            } else {
+                return result;
+            }
         }
 
         return rawData.map(rsd => {
@@ -53,7 +74,7 @@ export class InfomoneyIbovespaHistoricData implements IConsumer<any> {
                 variation: strToDouble(rsd.variation),
                 min: strToDouble(rsd.min),
                 max: strToDouble(rsd.max),
-                volume: volumeToDouble(rsd.volume),
+                volume: volumeToNumber(rsd.volume),
             }
         }).filter(sd => !!sd);
     }
