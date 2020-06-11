@@ -43,7 +43,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.26.0",
     "mongoose": "^5.9.2",
-    "stock-learning-rabbitmq": "0.0.15",
+    "stock-learning-rabbitmq": "0.0.18",
     "tsc": "^1.20150623.0"
   }
 }

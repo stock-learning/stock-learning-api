@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { IConsumer } from 'stock-learning-rabbitmq';
+import { IConsumer, RabbitMQServer } from 'stock-learning-rabbitmq';
 import { LiveUpdateStockDataDocument } from './../documents/live-update-stock-data-document';
 import { ILiveUpdateStockDataModel } from './../models/live-update-stock-data-model';
 
@@ -44,6 +44,8 @@ export class InfomoneyIbovespaLiveUpdate implements IConsumer<any> {
                     });
 
             LiveUpdateStockDataDocument.insertMany(toCreate);
+
+            RabbitMQServer.getInstance().getAnalyserStub().realTimeValueAdditionHandler({isPredict: true, stocks: toCreate});
         }
     }
 
