@@ -1,6 +1,6 @@
 import { IConsumer, RabbitMQServer } from 'stock-learning-rabbitmq';
 
-export class RealTimeValueAdditionHandlger implements IConsumer<any> {
+export class RealTimeValueAdditionHandler implements IConsumer<any> {
 
     consumerName = 'real-time-value-addition-handler';
 
@@ -10,4 +10,4 @@ export class RealTimeValueAdditionHandlger implements IConsumer<any> {
 
 }
 
-export default new RealTimeValueAdditionHandlger();
+export default new RealTimeValueAdditionHandler();
