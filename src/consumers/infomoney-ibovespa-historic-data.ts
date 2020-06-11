@@ -11,7 +11,7 @@ export class InfomoneyIbovespaHistoricData implements IConsumer<any> {
         if (message.stockData && !!message.stockData.length) {
             try {
                 const validData = message.stockData.filter((sd: any) => !!sd && !!sd.name && !!sd.date);
-                const mappedData = this.mapToCollectionFormat(message.stockData);
+                const mappedData = this.mapToCollectionFormat(validData);
                 const stockDataToDelete: any = mappedData.map((sd: any) => {
                     return {
                         $and: [

@@ -3,7 +3,8 @@
         "target": "ES6",
         "module": "commonjs",
         "lib": [
-            "ES6"
+            "ES6",
+            "es2019"
         ],
         "allowJs": true,
         "outDir": "dist",
