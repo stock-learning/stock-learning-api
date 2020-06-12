@@ -9,10 +9,10 @@ interface IPredictionDocument extends IPredictionModel, IDocumentCommon {
 const PredictionSchema = new Schema(
     {
         initials: { type: SchemaTypes.String, required: true },
-        name: { type: SchemaTypes.String, required: false },
-        type: { type: SchemaTypes.String, required: false },
-        sector: { type: SchemaTypes.String, required: false },
-        description: { type: SchemaTypes.String, required: false },
+        averageHit: { type: SchemaTypes.String, required: false },
+        totalReturn: { type: SchemaTypes.Decimal128, required: false },
+        buyHold: { type: SchemaTypes.Decimal128, required: false },
+        updateDate: { type: SchemaTypes.Date, required: true },
     },
     {
         timestamps: true
