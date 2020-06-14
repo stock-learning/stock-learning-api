@@ -9,6 +9,7 @@ import getDailyCompanies from './consumers/get-daily-companies';
 import infomoneyIbovespaCompanyData from './consumers/infomoney-ibovespa-company-data';
 import infomoneyIbovespaHistoricData from "./consumers/infomoney-ibovespa-historic-data";
 import infomoneyIbovespaLiveUpdate from './consumers/infomoney-ibovespa-live-update';
+import persistTweets from './consumers/persist-tweets';
 import headerCommonsMiddleware from './middleware/header-commons-middleware';
 import internalServerErrorMiddleware from "./middleware/internal-server-error-middleware";
 
@@ -29,6 +30,7 @@ const consumers = ConsumerMap.builder()
     .register(infomoneyIbovespaCompanyData)
     .register(infomoneyIbovespaHistoricData)
     .register(infomoneyIbovespaLiveUpdate)
+    .register(persistTweets)
     .build();
 
 Database.connect(process.env.DB_CONNECTION_STRING || '')
