@@ -1,9 +1,7 @@
 import { Request, Response } from 'express';
-import { RabbitMQServer } from 'stock-learning-rabbitmq';
 import { Authentication } from "../../common/decorators/authentication";
 import { IResolver } from '../../common/graphql/iresolver';
-import { TrackedTwitterAccountDocument } from './../../documents/tracked-twitter-account-document';
-import { ITrackedTwitterAccountModel } from './../../models/tracked-twitter-account-model';
+import { HistoricStockDataDocument } from '../../documents/historic-stock-data-document';
 
 class TesteResolver implements IResolver<any, any> {
 
@@ -29,9 +27,13 @@ class TesteResolver implements IResolver<any, any> {
         // console.log(companies);
         // RabbitMQServer.getInstance().getApiScrapperStub().fetchCompanyNews({ companies });
 
-        const accounts = (await TrackedTwitterAccountDocument.find({})).map((doc: ITrackedTwitterAccountModel) => doc.account);
-        console.log(accounts);
-        RabbitMQServer.getInstance().getApiScrapperStub().fetchTweetsByAccount({ accounts });
+        // const accounts = (await TrackedTwitterAccountDocument.find({})).map((doc: ITrackedTwitterAccountModel) => doc.account);
+        // console.log(accounts);
+        // RabbitMQServer.getInstance().getApiScrapperStub().fetchTweetsByAccount({ accounts });
+
+        const allRecords = (await HistoricStockDataDocument.find({})).map(doc => doc.toResource());
+        const mapper = {isPredict: 0, stocks: allRecords};
+        console.log(mapper);
     }
 
 }

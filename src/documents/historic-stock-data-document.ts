@@ -8,11 +8,11 @@ const HistoricStockDataSchema = new Schema(
     {
         name: { type: SchemaTypes.String, required: true },
         date: { type: SchemaTypes.Date, required: true },
-        open: { type: SchemaTypes.Decimal128, required: false },
-        close: { type: SchemaTypes.Decimal128, required: false },
-        variation: { type: SchemaTypes.Decimal128, required: false },
-        min: { type: SchemaTypes.Decimal128, required: false },
-        max: { type: SchemaTypes.Decimal128, required: false },
+        open: { type: SchemaTypes.Number, required: false },
+        close: { type: SchemaTypes.Number, required: false },
+        variation: { type: SchemaTypes.Number, required: false },
+        min: { type: SchemaTypes.Number, required: false },
+        max: { type: SchemaTypes.Number, required: false },
         volume: { type: SchemaTypes.Number, required: false },
     },
     {

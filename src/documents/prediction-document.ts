@@ -10,8 +10,8 @@ const PredictionSchema = new Schema(
     {
         initials: { type: SchemaTypes.String, required: true },
         averageHit: { type: SchemaTypes.String, required: false },
-        totalReturn: { type: SchemaTypes.Decimal128, required: false },
-        buyHold: { type: SchemaTypes.Decimal128, required: false },
+        totalReturn: { type: SchemaTypes.Number, required: false },
+        buyHold: { type: SchemaTypes.Number, required: false },
         updateDate: { type: SchemaTypes.Date, required: true },
     },
     {
