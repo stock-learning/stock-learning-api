@@ -9,7 +9,9 @@ export class GetDailyCompanies implements IConsumer<any> {
         const dailyRecords = (await LiveUpdateStockDataDocument.find({
             "createdAt" : { "$gt" : this.getDate()}
         })).map(doc => doc.toResource());
-        RabbitMQServer.getInstance().getAnalyserStub().realTimeValueAdditionHandler({isPredict: true, stocks: dailyRecords});
+
+        const mapper = {isPredict: 1, stocks: dailyRecords};
+        RabbitMQServer.getInstance().getAnalyserStub().realTimeValueAdditionHandler(mapper);
     }
 
     private getDate(): Date {

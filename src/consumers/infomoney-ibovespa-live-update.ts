@@ -44,8 +44,7 @@ export class InfomoneyIbovespaLiveUpdate implements IConsumer<any> {
                     });
 
             LiveUpdateStockDataDocument.insertMany(toCreate);
-
-            RabbitMQServer.getInstance().getAnalyserStub().realTimeValueAdditionHandler({isPredict: true, stocks: toCreate});
+            RabbitMQServer.getInstance().getAnalyserStub().realTimeValueAdditionHandler({isPredict: 1, stocks: toCreate});
         }
     }
 

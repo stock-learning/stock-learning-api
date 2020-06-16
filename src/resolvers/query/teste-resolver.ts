@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { Authentication } from "../../common/decorators/authentication";
 import { IResolver } from '../../common/graphql/iresolver';
 import { HistoricStockDataDocument } from '../../documents/historic-stock-data-document';
+import { RabbitMQServer } from 'stock-learning-rabbitmq';
 
 class TesteResolver implements IResolver<any, any> {
 
@@ -31,9 +32,11 @@ class TesteResolver implements IResolver<any, any> {
         // console.log(accounts);
         // RabbitMQServer.getInstance().getApiScrapperStub().fetchTweetsByAccount({ accounts });
 
-        const allRecords = (await HistoricStockDataDocument.find({})).map(doc => doc.toResource());
-        const mapper = {isPredict: 0, stocks: allRecords};
-        console.log(mapper);
+        // const allRecords = (await HistoricStockDataDocument.find({})).map(doc => doc.toResource());
+        // const mapper = {isPredict: 0, stocks: allRecords};
+        // console.log(mapper);
+
+        RabbitMQServer.getInstance().getAnalyserStub().dailyPredictionClosingHandler();
     }
 
 }
