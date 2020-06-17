@@ -28,7 +28,7 @@ export class InfomoneyIbovespaLiveUpdate implements IConsumer<any> {
                         const doc: ILiveUpdateStockDataModel = new LiveUpdateStockDataDocument();
                         doc.name = rawData.name; // string;
                         doc.fetchTime = moment(rawData.fetchTime).toDate(); // date;
-                        doc.previousClosing = strToDouble(rawData.previousClosing); // double;
+                        doc.close = strToDouble(rawData.close); // double;
                         doc.open = strToDouble(rawData.open); // double;
                         doc.business = strToDouble(rawData.business); // double;
                         doc.quantity = strToDouble(rawData.quantity); // double;

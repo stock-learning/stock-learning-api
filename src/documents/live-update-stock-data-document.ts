@@ -8,6 +8,7 @@ const LiveUpdateStockDataSchema = new Schema(
     {
         name: { type: SchemaTypes.String, required: true },
         fetchTime: { type: SchemaTypes.Date, required: true },
+        close: { type: SchemaTypes.Number, required: false },
         open: { type: SchemaTypes.Number, required: false },
         business: { type: SchemaTypes.Number, required: false },
         quantity: { type: SchemaTypes.Number, required: false },

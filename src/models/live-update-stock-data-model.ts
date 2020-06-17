@@ -1,7 +1,7 @@
 export interface ILiveUpdateStockDataModel {
     name: string;
     fetchTime: Date;
-    previousClosing?: number;
+    close?: number;
     open?: number;
     business?: number;
     quantity?: number;
