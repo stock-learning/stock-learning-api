@@ -12,6 +12,8 @@ import infomoneyIbovespaLiveUpdate from './consumers/infomoney-ibovespa-live-upd
 import persistTweets from './consumers/persist-tweets';
 import headerCommonsMiddleware from './middleware/header-commons-middleware';
 import internalServerErrorMiddleware from "./middleware/internal-server-error-middleware";
+import livePrediction from './consumers/live-prediction';
+import livePredictionMovement from './consumers/live-prediction-movement';
 
 
 const app = express();
@@ -31,6 +33,8 @@ const consumers = ConsumerMap.builder()
     .register(infomoneyIbovespaHistoricData)
     .register(infomoneyIbovespaLiveUpdate)
     .register(persistTweets)
+    .register(livePrediction)
+    .register(livePredictionMovement)
     .build();
 
 Database.connect(process.env.DB_CONNECTION_STRING || '')

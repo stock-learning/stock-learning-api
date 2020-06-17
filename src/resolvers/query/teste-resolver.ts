@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import moment from 'moment';
+import { RabbitMQServer } from 'stock-learning-rabbitmq';
 import { Authentication } from "../../common/decorators/authentication";
 import { IResolver } from '../../common/graphql/iresolver';
-import { LiveUpdateStockDataDocument } from './../../documents/live-update-stock-data-document';
+import { CompanyDataDocument } from './../../documents/company-data-document';
 
 class TesteResolver implements IResolver<any, any> {
 
@@ -11,9 +11,9 @@ class TesteResolver implements IResolver<any, any> {
     @Authentication()
     async resolve(input: any, request: Request, response: Response): Promise<any> {
 
-        // const initials = (await CompanyDataDocument.find({}).select({ initials: 1, _id: 0 })).map(cd => cd.initials);
-        // console.log(initials);
-        // RabbitMQServer.getInstance().getWebScrapperStub().infomoneyIbovespaLiveUpdate({ initials });
+        const initials = (await CompanyDataDocument.find({}).select({ initials: 1, _id: 0 })).map(cd => cd.initials);
+        console.log(initials);
+        RabbitMQServer.getInstance().getWebScrapperStub().infomoneyIbovespaLiveUpdate({ initials });
         // RabbitMQServer.getInstance().getWebScrapperStub().infomoneyIbovespaHistoricData({ initials });
         // RabbitMQServer.getInstance().getWebScrapperStub().infomoneyIbovespaCompanyData();
 
@@ -32,14 +32,19 @@ class TesteResolver implements IResolver<any, any> {
         // console.log(accounts);
         // RabbitMQServer.getInstance().getApiScrapperStub().fetchTweetsByAccount({ accounts });
 
-        const data2 = moment().subtract(3, 'weeks').toDate();
+        // const data2 = moment().subtract(3, 'weeks').toDate();
 
-        const dailyRecords2 = (await LiveUpdateStockDataDocument.find({
-            fetchTime : { $gt : data2 }
-        })).map(doc => doc.toResource());
+        // const dailyRecords2 = (await LiveUpdateStockDataDocument.find({
+        //     fetchTime : { $gt : data2 }
+        // })).map(doc => doc.toResource());
 
-        console.log(dailyRecords2);
-        console.log(data2);
+        // console.log(dailyRecords2);
+        // console.log(data2);
+        // const allRecords = (await HistoricStockDataDocument.find({})).map(doc => doc.toResource());
+        // const mapper = {isPredict: 0, stocks: allRecords};
+        // console.log(mapper);
+
+        // RabbitMQServer.getInstance().getAnalyserStub().dailyPredictionClosingHandler();
     }
 
 }

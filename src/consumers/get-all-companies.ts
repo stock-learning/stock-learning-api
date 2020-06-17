@@ -6,8 +6,9 @@ export class GetAllCompanies implements IConsumer<any> {
     consumerName = 'get-all-companies';
 
     public async consume(message: any): Promise<void> {
-        const allRecords = (await HistoricStockDataDocument.find()).map(doc => doc.toResource());
-        RabbitMQServer.getInstance().getAnalyserStub().realTimeValueAdditionHandler({isPredict: false, stocks: allRecords});
+        const allRecords = (await HistoricStockDataDocument.find({})).map(doc => doc.toResource());
+        const mapper = {isPredict: 0, stocks: allRecords};
+        RabbitMQServer.getInstance().getAnalyserStub().realTimeValueAdditionHandler(mapper);
     }
 
 }
