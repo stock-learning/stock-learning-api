@@ -2,15 +2,7 @@ import { Request, Response } from 'express';
 import { RabbitMQServer } from 'stock-learning-rabbitmq';
 import { Authentication } from "../../common/decorators/authentication";
 import { IResolver } from '../../common/graphql/iresolver';
-<<<<<<< HEAD
-import { HistoricStockDataDocument } from '../../documents/historic-stock-data-document';
-import { RabbitMQServer } from 'stock-learning-rabbitmq';
-import { LiveUpdateStockDataDocument } from '../../documents/live-update-stock-data-document';
 import moment from 'moment';
-=======
-import { CompanyDataDocument } from './../../documents/company-data-document';
->>>>>>> 2a4e4c908674edf443c0afebca10b83d833c5d77
-
 class TesteResolver implements IResolver<any, any> {
 
     resolverName: string = 'testeQuery';
@@ -18,9 +10,9 @@ class TesteResolver implements IResolver<any, any> {
     @Authentication()
     async resolve(input: any, request: Request, response: Response): Promise<any> {
 
-        const initials = (await CompanyDataDocument.find({}).select({ initials: 1, _id: 0 })).map(cd => cd.initials);
-        console.log(initials);
-        RabbitMQServer.getInstance().getWebScrapperStub().infomoneyIbovespaLiveUpdate({ initials });
+        // const initials = (await CompanyDataDocument.find({}).select({ initials: 1, _id: 0 })).map(cd => cd.initials);
+        // console.log(initials);
+        // RabbitMQServer.getInstance().getWebScrapperStub().infomoneyIbovespaLiveUpdate({ initials });
         // RabbitMQServer.getInstance().getWebScrapperStub().infomoneyIbovespaHistoricData({ initials });
         // RabbitMQServer.getInstance().getWebScrapperStub().infomoneyIbovespaCompanyData();
 
