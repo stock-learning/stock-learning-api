@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
+import moment from 'moment';
 import { Authentication } from "../../common/decorators/authentication";
 import { IResolver } from '../../common/graphql/iresolver';
-import { HistoricStockDataDocument } from '../../documents/historic-stock-data-document';
+import { LiveUpdateStockDataDocument } from './../../documents/live-update-stock-data-document';
 
 class TesteResolver implements IResolver<any, any> {
 
@@ -31,9 +32,14 @@ class TesteResolver implements IResolver<any, any> {
         // console.log(accounts);
         // RabbitMQServer.getInstance().getApiScrapperStub().fetchTweetsByAccount({ accounts });
 
-        const allRecords = (await HistoricStockDataDocument.find({})).map(doc => doc.toResource());
-        const mapper = {isPredict: 0, stocks: allRecords};
-        console.log(mapper);
+        const data2 = moment().subtract(3, 'weeks').toDate();
+
+        const dailyRecords2 = (await LiveUpdateStockDataDocument.find({
+            fetchTime : { $gt : data2 }
+        })).map(doc => doc.toResource());
+
+        console.log(dailyRecords2);
+        console.log(data2);
     }
 
 }
