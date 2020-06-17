@@ -3,6 +3,8 @@ import { Authentication } from "../../common/decorators/authentication";
 import { IResolver } from '../../common/graphql/iresolver';
 import { HistoricStockDataDocument } from '../../documents/historic-stock-data-document';
 import { RabbitMQServer } from 'stock-learning-rabbitmq';
+import { LiveUpdateStockDataDocument } from '../../documents/live-update-stock-data-document';
+import moment from 'moment';
 
 class TesteResolver implements IResolver<any, any> {
 
@@ -36,9 +38,9 @@ class TesteResolver implements IResolver<any, any> {
         // const mapper = {isPredict: 0, stocks: allRecords};
         // console.log(mapper);
 
-        RabbitMQServer.getInstance().getAnalyserStub().dailyPredictionClosingHandler();
+        // RabbitMQServer.getInstance().getAnalyserStub().dailyPredictionClosingHandler();
+        RabbitMQServer.getInstance().getAnalyserStub().dailyPredictionStartupHandler();
     }
-
 }
 
 

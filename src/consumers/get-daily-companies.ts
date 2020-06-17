@@ -1,5 +1,6 @@
 import { IConsumer, RabbitMQServer } from 'stock-learning-rabbitmq';
 import { LiveUpdateStockDataDocument } from '../documents/live-update-stock-data-document';
+import moment from 'moment';
 
 export class GetDailyCompanies implements IConsumer<any> {
 
@@ -7,17 +8,11 @@ export class GetDailyCompanies implements IConsumer<any> {
 
     public async consume(message: any): Promise<void> {
         const dailyRecords = (await LiveUpdateStockDataDocument.find({
-            "createdAt" : { "$gt" : this.getDate()}
+            fetchTime : { $gt : moment().subtract(3, 'weeks').toDate() }
         })).map(doc => doc.toResource());
 
         const mapper = {isPredict: 1, stocks: dailyRecords};
         RabbitMQServer.getInstance().getAnalyserStub().realTimeValueAdditionHandler(mapper);
-    }
-
-    private getDate(): Date {
-        const date = new Date();
-        date.setHours(date.getHours() - 504); // 7 * 3 * 24
-        return date;
     }
 
 }
