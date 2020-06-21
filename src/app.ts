@@ -9,11 +9,12 @@ import getDailyCompanies from './consumers/get-daily-companies';
 import infomoneyIbovespaCompanyData from './consumers/infomoney-ibovespa-company-data';
 import infomoneyIbovespaHistoricData from "./consumers/infomoney-ibovespa-historic-data";
 import infomoneyIbovespaLiveUpdate from './consumers/infomoney-ibovespa-live-update';
-import persistTweets from './consumers/persist-tweets';
-import headerCommonsMiddleware from './middleware/header-commons-middleware';
-import internalServerErrorMiddleware from "./middleware/internal-server-error-middleware";
 import livePrediction from './consumers/live-prediction';
 import livePredictionMovement from './consumers/live-prediction-movement';
+import persistTweets from './consumers/persist-tweets';
+import yahooCompanyHistoricData from './consumers/yahoo-company-historic-data';
+import headerCommonsMiddleware from './middleware/header-commons-middleware';
+import internalServerErrorMiddleware from "./middleware/internal-server-error-middleware";
 
 
 const app = express();
@@ -35,6 +36,7 @@ const consumers = ConsumerMap.builder()
     .register(persistTweets)
     .register(livePrediction)
     .register(livePredictionMovement)
+    .register(yahooCompanyHistoricData)
     .build();
 
 Database.connect(process.env.DB_CONNECTION_STRING || '')

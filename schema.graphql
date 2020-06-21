@@ -1,3 +1,13 @@
+schema {
+    query: Query
+}
+
 type Query {
     testeQuery: String
+    login(username: String!, password: String!): LoginOutput!
+}
+
+type LoginOutput {
+    success: Boolean!
+    token: String
 }

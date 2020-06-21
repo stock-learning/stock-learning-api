@@ -15,13 +15,13 @@ export class InfomoneyIbovespaLiveUpdate implements IConsumer<any> {
 
                         const strToDouble = (str: string | undefined): number | undefined => {
                             if (!str) {
-                                return undefined;
+                                return 0;
                             }
                             if (str.includes('%')) {
                                 return +str.split('%').join('');
                             } else {
                                 return +str.split('.').join('')
-                                           .split(',').join('.')
+                                           .split(',').join('.');
                             }
                         }
 

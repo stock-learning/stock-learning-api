@@ -10,6 +10,7 @@
     "DB_CONNECTION_STRING": "mongodb://localhost:27017/stock_learning_api",
     "PORT": 3000,
     "GRAPHIQL": true,
-    "RABBITMQ_CONNECTION_STRING": "amqp://localhost"
+    "RABBITMQ_CONNECTION_STRING": "amqp://localhost",
+    "SECRET": "my secret"
   }
 }

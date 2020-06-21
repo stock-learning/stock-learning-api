@@ -7,4 +7,5 @@ export interface IHistoricStockDataModel {
     min?: number;
     max?: number;
     volume?: number;
+    adjClose?: number;
 }

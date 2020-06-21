@@ -12,16 +12,25 @@ export class InfomoneyIbovespaHistoricData implements IConsumer<any> {
             try {
                 const validData = message.stockData.filter((sd: any) => !!sd && !!sd.name && !!sd.date);
                 const mappedData = this.mapToCollectionFormat(validData);
-                const stockDataToDelete: any = mappedData.map((sd: any) => {
-                    return {
-                        $and: [
-                            { name: sd.name },
-                            { date: sd.date },
-                        ]
-                    };
+                // const stockDataToDelete: any = mappedData.map((sd: any) => {
+                //     return {
+                //         $and: [
+                //             { name: sd.name },
+                //             { date: sd.date },
+                //         ]
+                //     };
+                // });
+                // await HistoricStockDataDocument.deleteMany({ $or: stockDataToDelete });
+                // await HistoricStockDataDocument.create(mappedData);
+                mappedData.forEach(async (sd: any) => {
+                    const toUpdate  = await HistoricStockDataDocument.findOne({ name: sd.name, date: sd.date });
+                    if (toUpdate) {
+                        toUpdate.updateWith(sd);
+                        await toUpdate.save();
+                    } else {
+                        await HistoricStockDataDocument.create(mappedData);
+                    }
                 });
-                await HistoricStockDataDocument.deleteMany({ $or: stockDataToDelete })
-                await HistoricStockDataDocument.create(mappedData);
             } catch(e) {
                 console.log(e);
             }

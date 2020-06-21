@@ -2,18 +2,21 @@ import { Model, model, Schema, SchemaTypes } from 'mongoose';
 import { IHistoricStockDataModel } from '../models/historic-stock-data-model';
 import { IDocumentCommon } from './document-common';
 
-interface IHistoricStockDataDocument extends IHistoricStockDataModel, IDocumentCommon { }
+export interface IHistoricStockDataDocument extends IHistoricStockDataModel, IDocumentCommon { 
+    updateWith(data: any): void;
+}
 
 const HistoricStockDataSchema = new Schema(
     {
         name: { type: SchemaTypes.String, required: true },
         date: { type: SchemaTypes.Date, required: true },
-        open: { type: SchemaTypes.Number, required: false },
-        close: { type: SchemaTypes.Number, required: false },
-        variation: { type: SchemaTypes.Number, required: false },
-        min: { type: SchemaTypes.Number, required: false },
-        max: { type: SchemaTypes.Number, required: false },
-        volume: { type: SchemaTypes.Number, required: false },
+        open: { type: SchemaTypes.Number, required: true, default: 0 },
+        close: { type: SchemaTypes.Number, required: true, default: 0 },
+        variation: { type: SchemaTypes.Number, required: true, default: 0 },
+        min: { type: SchemaTypes.Number, required: true, default: 0 },
+        max: { type: SchemaTypes.Number, required: true, default: 0 },
+        volume: { type: SchemaTypes.Number, required: true, default: 0 },
+        adjClose: { type: SchemaTypes.Number, required: true, default: 0 },
     },
     {
         timestamps: true
@@ -22,6 +25,10 @@ const HistoricStockDataSchema = new Schema(
 
 HistoricStockDataSchema.methods.toResource = function (): IHistoricStockDataModel {
     return { ...this._doc }
+}
+
+HistoricStockDataSchema.methods.updateWith = function (data: any): void {
+    this._doc = { ...this._doc, ...data };
 }
 
 export const HistoricStockDataDocument: Model<IHistoricStockDataDocument> = model<IHistoricStockDataDocument>(
