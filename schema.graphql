@@ -1,10 +1,15 @@
 schema {
     query: Query
+    subscription: Subscription
 }
 
 type Query {
     testeQuery: String
     login(username: String!, password: String!): LoginOutput!
+}
+
+type Subscription {
+    newLiveUpdate: String
 }
 
 type LoginOutput {
