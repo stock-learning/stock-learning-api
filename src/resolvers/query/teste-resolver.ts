@@ -2,9 +2,8 @@ import { Request, Response } from 'express';
 import { RabbitMQServer } from 'stock-learning-rabbitmq';
 import { Authentication } from "../../common/decorators/authentication";
 import { IResolver } from '../../common/graphql/iresolver';
+import companyDataController from '../../controllers/company-data-controller';
 import { CompanyDataDocument } from './../../documents/company-data-document';
-import { TrackedTwitterAccountDocument } from './../../documents/tracked-twitter-account-document';
-import { ITrackedTwitterAccountModel } from './../../models/tracked-twitter-account-model';
 
 class TesteResolver implements IResolver<any, any> {
 
@@ -15,6 +14,7 @@ class TesteResolver implements IResolver<any, any> {
 
         const initials = (await CompanyDataDocument.find({}).select({ initials: 1, _id: 0 })).map(cd => cd.initials);
         console.log(initials);
+
         // RabbitMQServer.getInstance().getWebScrapperStub().infomoneyIbovespaLiveUpdate({ initials });
         // RabbitMQServer.getInstance().getWebScrapperStub().infomoneyIbovespaHistoricData({ initials });
         // RabbitMQServer.getInstance().getWebScrapperStub().infomoneyIbovespaCompanyData();
@@ -30,9 +30,9 @@ class TesteResolver implements IResolver<any, any> {
         // console.log(companies);
         // RabbitMQServer.getInstance().getApiScrapperStub().fetchCompanyNews({ companies });
 
-        const accounts = (await TrackedTwitterAccountDocument.find({})).map((doc: ITrackedTwitterAccountModel) => doc.account);
-        console.log(accounts);
-        RabbitMQServer.getInstance().getApiScrapperStub().fetchTweetsByAccount({ accounts });
+        // const accounts = (await TrackedTwitterAccountDocument.find({})).map((doc: ITrackedTwitterAccountModel) => doc.account);
+        // console.log(accounts);
+        // RabbitMQServer.getInstance().getApiScrapperStub().fetchTweetsByAccount({ accounts });
 
         // const data2 = moment().subtract(3, 'weeks').toDate();
 
@@ -48,8 +48,12 @@ class TesteResolver implements IResolver<any, any> {
 
         // RabbitMQServer.getInstance().getAnalyserStub().dailyPredictionClosingHandler();
         // RabbitMQServer.getInstance().getWebScrapperStub().yahooCompanyHistoricData({ initials });
-    }
+        // RabbitMQServer.getInstance().getAnalyserStub().dailyPredictionStartupHandler();
 
+        RabbitMQServer.getInstance()
+            .getApiScrapperStub()
+            .fetchCompanyNews({ companies: await companyDataController.fetchCompanyNewsRequestData() });
+    }
 }
 
 

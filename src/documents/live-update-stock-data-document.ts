@@ -35,4 +35,3 @@ export const LiveUpdateStockDataDocument: Model<ILiveUpdateStockDataDocument> = 
     LiveUpdateStockDataSchema,
     'live_update_stock_data'
 );
-

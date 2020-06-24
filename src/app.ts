@@ -15,9 +15,11 @@ import persistTweets from './consumers/persist-tweets';
 import yahooCompanyHistoricData from './consumers/yahoo-company-historic-data';
 import headerCommonsMiddleware from './middleware/header-commons-middleware';
 import internalServerErrorMiddleware from "./middleware/internal-server-error-middleware";
+import { startJobs } from './schedule/schedule';
 
 
 const app = express();
+const argv = process.argv.slice(2);
 
 app.use(bodyParser.json());
 app.use(headerCommonsMiddleware);
@@ -54,6 +56,10 @@ Database.connect(process.env.DB_CONNECTION_STRING || '')
         console.info('RabbitMQ API queue consumer is up and running');
         app.listen(process.env.PORT);
         console.info(`API is up and running on port ${process.env.PORT}`);
+        if (argv.indexOf('no-jobs') === -1) {
+            startJobs();
+            console.info('schedules have started!');
+        }
     })
     .catch(err => {
         console.error('Something went wrong while initilizing server!');

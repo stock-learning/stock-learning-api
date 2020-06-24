@@ -1,7 +1,7 @@
 import { INewsSourceModel } from './news-source-model';
 
 export interface ICompanyNewsModel {
-    companyInitials: string;
+    initials: string;
     source: INewsSourceModel;
     author?: string;
     title?: string;

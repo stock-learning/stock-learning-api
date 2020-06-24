@@ -11,22 +11,21 @@ export class CompanyNews implements IConsumer<any> {
         if (message.companyNews?.length) {
             message.companyNews.forEach((rawData: any) => {
                 console.log(JSON.stringify(rawData));
-            })
+            });
             const models: ICompanyNewsModel[] = message.companyNews
-                    .filter((rawData: any) => !!rawData && !!rawData.companyInitials)
+                    .filter((rawData: any) => !!rawData && !!rawData.initials)
                     .map((rawData: any) => this.toCompanyNewsModel(rawData));
             console.log(JSON.stringify(models));
             const newModels: ICompanyNewsModel[] = models.filter(async (model: ICompanyNewsModel) => {
-                return !(await CompanyNewsDocument.exists({ companyInitials: model.companyInitials, publishedAt: model.publishedAt }));
+                return !(await CompanyNewsDocument.exists({ initials: model.initials, publishedAt: model.publishedAt }));
             });
-            // console.log(JSON.stringify(newModels));
             await CompanyNewsDocument.insertMany(newModels);
         }
     }
 
     private toCompanyNewsModel(rawData: any): ICompanyNewsModel {
         return {
-            companyInitials: rawData.companyInitials,
+            initials: rawData.initials,
             source: rawData.source && {
                 id: rawData.source?.id,
                 name: rawData.source?.name,

@@ -8,7 +8,7 @@ interface ICompanyNewsDocument extends ICompanyNewsModel, IDocumentCommon {
 
 const CompanyNewsSchema = new Schema(
     {
-        companyInitials: { type: SchemaTypes.String, required: true },
+        initials: { type: SchemaTypes.String, required: true },
         source: {
             id: { type: SchemaTypes.String, required: false },
             name: { type: SchemaTypes.String, required: false },
