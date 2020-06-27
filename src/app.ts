@@ -1,8 +1,7 @@
 import bodyParser from 'body-parser';
 import express from 'express';
-import { createServer } from 'http';
 import { ConsumerMap, RabbitMQServer } from 'stock-learning-rabbitmq';
-import { buildSubscriptionServer, graphiqlRouter, graphqlRouter } from "./common/graphql/graphql-server";
+import { buildGraphQLServer, graphiqlRouter, graphqlRouter } from "./common/graphql/graphql-server";
 import { Database } from './common/infra/Database';
 import companyNews from './consumers/company-news';
 import getAllCompanies from './consumers/get-all-companies';
@@ -60,15 +59,12 @@ Database.connect(process.env.DB_CONNECTION_STRING || '')
             startJobs();
             console.info('schedules have started!');
         }
-        const server = createServer(app);
-        server.listen(process.env.PORT, () => buildSubscriptionServer(server));
-        console.info(`API is up and running on port ${process.env.PORT}`);
+        return buildGraphQLServer().start({ port: process.env.PORT || 3000 });
+    })
+    .then(() => {
+        console.info(`API is up and running on port ${process.env.PORT || 3000}`);
     })
     .catch(err => {
         console.error('Something went wrong while initilizing server!');
         console.error(err);
     });
-
-
-
-   

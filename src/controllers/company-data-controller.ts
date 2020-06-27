@@ -24,7 +24,6 @@ export class CompanyDataController {
                 };
             })))
             .filter(i => !!i);
-        console.log(toReturn);
         return toReturn;
     }
 

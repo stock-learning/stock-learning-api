@@ -9,13 +9,9 @@ export class CompanyNews implements IConsumer<any> {
 
     public async consume(message: any): Promise<void> {
         if (message.companyNews?.length) {
-            message.companyNews.forEach((rawData: any) => {
-                console.log(JSON.stringify(rawData));
-            });
             const models: ICompanyNewsModel[] = message.companyNews
                     .filter((rawData: any) => !!rawData && !!rawData.initials)
                     .map((rawData: any) => this.toCompanyNewsModel(rawData));
-            console.log(JSON.stringify(models));
             const newModels: ICompanyNewsModel[] = models.filter(async (model: ICompanyNewsModel) => {
                 return !(await CompanyNewsDocument.exists({ initials: model.initials, publishedAt: model.publishedAt }));
             });

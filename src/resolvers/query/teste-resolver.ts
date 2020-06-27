@@ -1,15 +1,17 @@
-import { Request, Response } from 'express';
 import { RabbitMQServer } from 'stock-learning-rabbitmq';
 import { Authentication } from "../../common/decorators/authentication";
 import { IResolver } from '../../common/graphql/iresolver';
+import { GraphQLContext } from './../../common/graphql/graphql-context';
 import { CompanyDataDocument } from './../../documents/company-data-document';
 
 class TesteResolver implements IResolver<any, any> {
 
-    resolverName: string = 'testeQuery';
+    public getResolverName(): string {
+        return 'testeQuery';
+    }
 
     @Authentication(true)
-    public async resolve(input: any, request: Request, response: Response): Promise<any> {
+    public async resolve(parent: any, args: any, context: GraphQLContext): Promise<any> {
 
         const initials = (await CompanyDataDocument.find({}).select({ initials: 1, _id: 0 })).map(cd => cd.initials);
         console.log(initials);

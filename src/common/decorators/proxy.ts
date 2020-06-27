@@ -43,4 +43,17 @@ export class Proxy {
     }
 }
 
+export const proxyMethod = (predicate: (ctx: PropertyDescriptor, ...args: any[]) => boolean, reject: () => any) => {
+    return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+        const originalMethod = descriptor.value;
+        descriptor.value = function(...args: any[]) {
+            if (predicate(target, args)) {
+                return originalMethod.apply(target, args);
+            } else {
+                return reject();
+            }
+        };
+    };
+}
+
 

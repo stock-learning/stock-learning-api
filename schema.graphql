@@ -10,7 +10,7 @@ type Query {
 }
 
 type Subscription {
-    newLiveUpdate: String
+    newLiveUpdate: NewLiveUpdateOutput
 }
 
 type LoginOutput {
@@ -19,5 +19,9 @@ type LoginOutput {
 }
 
 type FlutterTesteOutput {
+    message: String
+}
+
+type NewLiveUpdateOutput {
     message: String
 }

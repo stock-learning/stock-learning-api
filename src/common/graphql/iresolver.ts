@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
+import { GraphQLContext } from './graphql-context';
 
 
 export interface IResolver<T, K> {
-    resolverName: string;
-    resolve(input: T, request: Request, response: Response): Promise<K>;
+    getResolverName(): string;
+    resolve(parent: any, args: T, context: GraphQLContext): Promise<K>;
 }
