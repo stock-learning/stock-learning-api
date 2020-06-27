@@ -6,6 +6,7 @@ schema {
 type Query {
     testeQuery: String
     login(username: String!, password: String!): LoginOutput!
+    flutterTeste(name: String): FlutterTesteOutput
 }
 
 type Subscription {
@@ -15,4 +16,8 @@ type Subscription {
 type LoginOutput {
     success: Boolean!
     token: String
+}
+
+type FlutterTesteOutput {
+    message: String
 }

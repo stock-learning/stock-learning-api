@@ -10,29 +10,31 @@ export class YahooCompanyHistoricData implements IConsumer<any> {
     public async consume(message: any): Promise<void> {
         if (message.stockData && !!message.stockData.length) {
             try {
+                console.log('yahoo-company-historic-data');
                 const validData = message.stockData.filter((sd: any) => !!sd && !!sd.name && !!sd.date);
                 const mappedData = this.mapToCollectionFormat(validData);
 
-                // const stockDataToDelete: any = mappedData.map((sd: any) => {
-                //     return {
-                //         $and: [
-                //             { name: sd.name },
-                //             { date: sd.date },
-                //         ]
-                //     };
-                // });
-
-                // await HistoricStockDataDocument.deleteMany({ $or: stockDataToDelete });
-
-                mappedData.forEach(async (sd: any) => {
-                    const toUpdate  = await HistoricStockDataDocument.findOne({ name: sd.name, date: sd.date });
-                    if (toUpdate) {
-                        toUpdate.updateWith(sd);
-                        await toUpdate.save();
-                    } else {
-                        await HistoricStockDataDocument.create(mappedData);
-                    }
+                const stockDataToDelete: any = mappedData.map((sd: any) => {
+                    return {
+                        $and: [
+                            { name: sd.name },
+                            { date: sd.date },
+                        ]
+                    };
                 });
+
+                await HistoricStockDataDocument.deleteMany({ $or: stockDataToDelete });
+                await HistoricStockDataDocument.insertMany(mappedData);
+
+                // mappedData.forEach(async (sd: any) => {
+                //     const toUpdate  = await HistoricStockDataDocument.findOne({ name: sd.name, date: sd.date });
+                //     if (toUpdate) {
+                //         toUpdate.updateWith(sd);
+                //         await toUpdate.save();
+                //     } else {
+                //         await HistoricStockDataDocument.create(mappedData);
+                //     }
+                // });
 
             } catch(e) {
                 console.log(e);

@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { RabbitMQServer } from 'stock-learning-rabbitmq';
 import { Authentication } from "../../common/decorators/authentication";
 import { IResolver } from '../../common/graphql/iresolver';
-import companyDataController from '../../controllers/company-data-controller';
 import { CompanyDataDocument } from './../../documents/company-data-document';
 
 class TesteResolver implements IResolver<any, any> {
@@ -51,8 +50,8 @@ class TesteResolver implements IResolver<any, any> {
         // RabbitMQServer.getInstance().getAnalyserStub().dailyPredictionStartupHandler();
 
         RabbitMQServer.getInstance()
-            .getApiScrapperStub()
-            .fetchCompanyNews({ companies: await companyDataController.fetchCompanyNewsRequestData() });
+            .getWebScrapperStub()
+            .yahooCompanyHistoricData({ initials });
     }
 }
 

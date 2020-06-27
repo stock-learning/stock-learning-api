@@ -14,7 +14,10 @@ export function Authentication(disable?: boolean) {
                 const req: Request = args[1];
                 const res: Response = args[2];
 
-                const authorizationHeader = req.get('Authorization');
+                // console.log('args', JSON.stringify(args));
+                // console.log('headers', JSON.stringify(req.headers));
+                // console.log('body', JSON.stringify(req.body))
+                const authorizationHeader = req.headers.authorization;
                 if (!authorizationHeader) {
                     return false;
                 } else {
@@ -24,6 +27,7 @@ export function Authentication(disable?: boolean) {
                         req.userId = (decodedToken as any).userId;
                         return true;
                     } catch (err) {
+                        console.log(`Invalid token ${token}!`)
                         return false;
                     }
                 }

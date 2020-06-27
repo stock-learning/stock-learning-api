@@ -2,7 +2,7 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import { createServer } from 'http';
 import { ConsumerMap, RabbitMQServer } from 'stock-learning-rabbitmq';
-import { buildSubscriptionServer, graphqlRouter } from "./common/graphql/graphql-server";
+import { buildSubscriptionServer, graphiqlRouter, graphqlRouter } from "./common/graphql/graphql-server";
 import { Database } from './common/infra/Database';
 import companyNews from './consumers/company-news';
 import getAllCompanies from './consumers/get-all-companies';
@@ -19,7 +19,6 @@ import internalServerErrorMiddleware from "./middleware/internal-server-error-mi
 import { startJobs } from './schedule/schedule';
 
 
-
 const app = express();
 const argv = process.argv.slice(2);
 
@@ -27,6 +26,7 @@ app.use(bodyParser.json());
 app.use(headerCommonsMiddleware);
 
 app.use(graphqlRouter);
+app.use(graphiqlRouter);
 
 app.use(internalServerErrorMiddleware);
 
