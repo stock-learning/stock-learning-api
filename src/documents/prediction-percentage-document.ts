@@ -10,7 +10,7 @@ const PredictionPercentageSchema = new Schema(
     {
         initials: { type: SchemaTypes.String, required: true },
         porcentage: { type: SchemaTypes.Number, required: true },
-        isSell: { type: SchemaTypes.Boolean, required: true },
+        isPositive: { type: SchemaTypes.Boolean, required: true },
     },
     {
         timestamps: true

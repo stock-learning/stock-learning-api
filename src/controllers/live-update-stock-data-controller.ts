@@ -1,23 +1,11 @@
-import { IResolver } from '../../common/graphql/iresolver';
-import { PredictionDocument } from '../../documents/prediction-document';
-import { PredictionPercentageDocument } from '../../documents/prediction-percentage-document';
-import { ITimelineModel } from '../../models/timeline-data-model';
-import { GraphQLContext } from './../../common/graphql/graphql-context';
-import { CompanyDataDocument } from './../../documents/company-data-document';
+import { ITimelineModel } from '../models/timeline-data-model';
+import { CompanyDataDocument } from '../documents/company-data-document';
+import { PredictionDocument } from '../documents/prediction-document';
+import { PredictionPercentageDocument } from '../documents/prediction-percentage-document';
 
-class TesteResolver implements IResolver<any, any> {
+export class LiveUpdateStockDataController {
 
-    public readonly resolverName = 'testeQuery';
-
-    public async resolve(parent: any, args: any, context: GraphQLContext): Promise<any> {
-
-        const data = await this.getLiveData();
-        console.log(data);
-
-        return 'ola';
-    }
-
-    private async getLiveData(): Promise<ITimelineModel[]> {
+    public async getAsyncData(): Promise<ITimelineModel[]> {
         const companies : any[] = await CompanyDataDocument.find().select({ initials: 1, name: 1, description: 1, _id: 0 });
         const data : any[] = [];
 
@@ -70,5 +58,4 @@ class TesteResolver implements IResolver<any, any> {
     }
 }
 
-
-export default new TesteResolver();
+export default new LiveUpdateStockDataController();
