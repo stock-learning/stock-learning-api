@@ -16,8 +16,11 @@ import persistTweets from './consumers/persist-tweets';
 import yahooCompanyHistoricData from './consumers/yahoo-company-historic-data';
 import headerCommonsMiddleware from './middleware/header-commons-middleware';
 import internalServerErrorMiddleware from "./middleware/internal-server-error-middleware";
+import currentUserMutationResolver from './resolvers/mutation/current-user-mutation-resolver';
 import singleCompanyDataByUserResolver from './resolvers/query/company-data-resolver';
 import companyStockCurrentValueResolver from './resolvers/query/company-stock-current-value-resolver';
+import currentUserNotification from './resolvers/query/current-user-notification';
+import currentUserQueryResolver from './resolvers/query/current-user-query-resolver';
 import flutterTesteResolver from './resolvers/query/flutter-teste-resolver';
 import loginResolver from './resolvers/query/login-resolver';
 import testeResolver from './resolvers/query/teste-resolver';
@@ -49,6 +52,9 @@ const consumers = ConsumerMap.builder()
     .build();
 
 const resolvers = Resolvers.builder()
+    .registerProtectedMutation(currentUserMutationResolver)
+    .registerProtectedQuery(currentUserQueryResolver)
+    .registerProtectedQuery(currentUserNotification)
     .registerProtectedQuery(tweetResolver)
     .registerProtectedQuery(userFollowCompanyResolver)
     .registerProtectedQuery(companyStockCurrentValueResolver)

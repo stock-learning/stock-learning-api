@@ -1,12 +1,12 @@
 import { GraphQLContext } from '../../common/graphql/graphql-context';
 import { IResolver } from '../../common/graphql/iresolver';
-import { IIdInputModel } from '../../models/id-input-model';
+import { IInitialsInputModel } from '../../models/initials-input-model';
 
-class UserFollowCompanyResolver implements IResolver<IIdInputModel, boolean> {
+class UserFollowCompanyResolver implements IResolver<IInitialsInputModel, boolean> {
 
     public readonly resolverName = 'userFollowCompany';
 
-    public async resolve(parent: any, args: IIdInputModel, context: GraphQLContext): Promise<boolean> {
+    public async resolve(parent: any, args: IInitialsInputModel, context: GraphQLContext): Promise<boolean> {
         return false;
     }
 }

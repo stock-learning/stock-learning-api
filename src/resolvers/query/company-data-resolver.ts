@@ -1,13 +1,13 @@
 import { GraphQLContext } from '../../common/graphql/graphql-context';
 import { IResolver } from '../../common/graphql/iresolver';
-import { IIdInputModel } from '../../models/id-input-model';
+import { IInitialsInputModel } from '../../models/initials-input-model';
 import { ICompanyDataModel } from './../../models/company-data-model';
 
-class CompanyDataResolver implements IResolver<IIdInputModel, ICompanyDataModel> {
+class CompanyDataByInitialsResolver implements IResolver<IInitialsInputModel, ICompanyDataModel> {
 
-    public readonly resolverName = 'companyData';
+    public readonly resolverName = 'companyDataByInitials';
 
-    public async resolve(parent: any, args: IIdInputModel, context: GraphQLContext): Promise<ICompanyDataModel> {
+    public async resolve(parent: any, args: IInitialsInputModel, context: GraphQLContext): Promise<ICompanyDataModel> {
         return {
             initials: 'TIMP3',
             name: 'TIM Participações',
@@ -20,4 +20,4 @@ class CompanyDataResolver implements IResolver<IIdInputModel, ICompanyDataModel>
 }
 
 
-export default new CompanyDataResolver();
+export default new CompanyDataByInitialsResolver();

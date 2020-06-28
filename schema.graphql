@@ -2,6 +2,7 @@ scalar DateTime
 
 schema {
     query: Query
+    mutation: Mutation
     subscription: Subscription
 }
 
@@ -9,10 +10,16 @@ type Query {
     testeQuery: String
     login(username: String!, password: String!): LoginOutput!
     flutterTeste(name: String): FlutterTesteOutput
-    companyData(id: String): CompanyData
-    userFollowCompany(companyId: String): Boolean
-    companyStockCurrentValue(companyId: String): Float
-    tweets(companyId: String): [Tweet]
+    companyDataByInitials(initials: String): CompanyData
+    userFollowCompany(initials: String): Boolean
+    companyStockCurrentValue(initials: String): Float
+    tweets(initials: String): [Tweet]
+    currentUserNotification: [CurrentUserNotificationOutput]
+    currentUserQuery: UserOutput!
+}
+
+type Mutation {
+    currentUserMutation(user: UserInput): UserOutput
 }
 
 type Subscription {
@@ -21,7 +28,18 @@ type Subscription {
 
 # Inputs
 
+input UserInput {
+    name: String
+    email: String!
+    password: String!
+}
+
 # Outputs
+
+type CurrentUserNotificationOutput {
+    text: String!
+    dateTime: DateTime!
+}
 
 type LoginOutput {
     success: Boolean!
@@ -34,6 +52,11 @@ type FlutterTesteOutput {
 
 type NewLiveUpdateOutput {
     message: String
+}
+
+type UserOutput {
+    name: String
+    email: String
 }
 
 # Documents
@@ -56,3 +79,4 @@ type Tweet {
     sentiment: String
     relatedInitials: [String]
 }
+
