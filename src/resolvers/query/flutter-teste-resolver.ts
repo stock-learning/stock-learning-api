@@ -1,20 +1,18 @@
-import { Authentication } from '../../common/decorators/authentication';
 import { IResolver } from '../../common/graphql/iresolver';
 import { GraphQLContext } from './../../common/graphql/graphql-context';
 
 class FlutterTesteResolver implements IResolver<any, any> {
 
-    public getResolverName(): string {
-        return 'flutterTeste';
-    }
+    public readonly resolverName = 'flutterTeste';
 
-    @Authentication(true)
+    private _counter: number = 0;
+
     public async resolve(parent: any, args: any, context: GraphQLContext): Promise<any> {
-        // this.counter++;
+        this._counter++;
 
-        context.pubSub.publish('newLiveUpdate', {newLiveUpdate: { message: `Counter ${ '0' }` }});
+        context.pubSub.publish('newLiveUpdate', {newLiveUpdate: { message: `Counter ${ this._counter }` }});
 
-        return { message: `Hello from NodeJS! ${ 'input.name' }` };
+        return { message: `Hello from NodeJS! ${ args.name }` };
     }
 
 }

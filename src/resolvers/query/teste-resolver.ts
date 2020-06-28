@@ -1,59 +1,17 @@
-import { RabbitMQServer } from 'stock-learning-rabbitmq';
-import { Authentication } from "../../common/decorators/authentication";
 import { IResolver } from '../../common/graphql/iresolver';
 import { GraphQLContext } from './../../common/graphql/graphql-context';
 import { CompanyDataDocument } from './../../documents/company-data-document';
 
 class TesteResolver implements IResolver<any, any> {
 
-    public getResolverName(): string {
-        return 'testeQuery';
-    }
+    public readonly resolverName = 'testeQuery';
 
-    @Authentication(true)
     public async resolve(parent: any, args: any, context: GraphQLContext): Promise<any> {
 
         const initials = (await CompanyDataDocument.find({}).select({ initials: 1, _id: 0 })).map(cd => cd.initials);
         console.log(initials);
 
-        // RabbitMQServer.getInstance().getWebScrapperStub().infomoneyIbovespaLiveUpdate({ initials });
-        // RabbitMQServer.getInstance().getWebScrapperStub().infomoneyIbovespaHistoricData({ initials });
-        // RabbitMQServer.getInstance().getWebScrapperStub().infomoneyIbovespaCompanyData();
-
-        // const companies = (await CompanyDataDocument.find({}).select({ initials: 1, name: 1, _id: 0 })).map(cd => {
-        //         return {companyInitials: cd.initials, companyName: cd.name};
-        // });
-
-        // (await HistoricStockDataDocument.find()).map(doc => {
-        //     return { isPredict: true, ...doc.toResource() };
-        // });
-
-        // console.log(companies);
-        // RabbitMQServer.getInstance().getApiScrapperStub().fetchCompanyNews({ companies });
-
-        // const accounts = (await TrackedTwitterAccountDocument.find({})).map((doc: ITrackedTwitterAccountModel) => doc.account);
-        // console.log(accounts);
-        // RabbitMQServer.getInstance().getApiScrapperStub().fetchTweetsByAccount({ accounts });
-
-        // const data2 = moment().subtract(3, 'weeks').toDate();
-
-        // const dailyRecords2 = (await LiveUpdateStockDataDocument.find({
-        //     fetchTime : { $gt : data2 }
-        // })).map(doc => doc.toResource());
-
-        // console.log(dailyRecords2);
-        // console.log(data2);
-        // const allRecords = (await HistoricStockDataDocument.find({})).map(doc => doc.toResource());
-        // const mapper = {isPredict: 0, stocks: allRecords};
-        // console.log(mapper);
-
-        // RabbitMQServer.getInstance().getAnalyserStub().dailyPredictionClosingHandler();
-        // RabbitMQServer.getInstance().getWebScrapperStub().yahooCompanyHistoricData({ initials });
-        // RabbitMQServer.getInstance().getAnalyserStub().dailyPredictionStartupHandler();
-
-        RabbitMQServer.getInstance()
-            .getWebScrapperStub()
-            .yahooCompanyHistoricData({ initials });
+        return 'ola';
     }
 }
 

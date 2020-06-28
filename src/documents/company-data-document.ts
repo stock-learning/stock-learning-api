@@ -10,6 +10,7 @@ const CompanyDataSchema = new Schema(
     {
         initials: { type: SchemaTypes.String, required: true },
         name: { type: SchemaTypes.String, required: false },
+        logoUrl: { type: SchemaTypes.String, required: false },
         type: { type: SchemaTypes.String, required: false },
         sector: { type: SchemaTypes.String, required: false },
         description: { type: SchemaTypes.String, required: false },
