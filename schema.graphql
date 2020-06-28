@@ -20,6 +20,7 @@ type Query {
 
 type Mutation {
     currentUserMutation(user: UserInput): UserOutput
+    followCompany(initials: String!, isFollow: Boolean!): Boolean!
 }
 
 type Subscription {
@@ -60,6 +61,7 @@ type UserOutput {
 }
 
 # Documents
+
 type CompanyData {
     id: String!
     initials: String!
