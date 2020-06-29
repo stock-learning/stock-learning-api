@@ -1,8 +1,7 @@
-import { Model, model, Schema, SchemaTypes } from 'mongoose';
+import { Document, Model, model, Schema, SchemaTypes } from 'mongoose';
 import { ICompanyNewsModel } from './../models/company-news-model';
-import { IDocumentCommon } from './document-common';
 
-interface ICompanyNewsDocument extends ICompanyNewsModel, IDocumentCommon {
+interface ICompanyNewsDocument extends ICompanyNewsModel, Document {
 }
 
 
@@ -26,14 +25,6 @@ const CompanyNewsSchema = new Schema(
         timestamps: true
     }
 )
-
-CompanyNewsSchema.methods.updateWith = function (data: any): void {
-    this._doc = { ...this._doc, ...data };
-}
-
-CompanyNewsSchema.methods.toResource = function (): ICompanyNewsModel {
-    return { ...this._doc }
-}
 
 export const CompanyNewsDocument: Model<ICompanyNewsDocument> = model<ICompanyNewsDocument>(
     'CompanyNews',

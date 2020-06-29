@@ -1,8 +1,7 @@
-import { Model, model, Schema, SchemaTypes } from 'mongoose';
+import { Document, Model, model, Schema, SchemaTypes } from 'mongoose';
 import { IPredictionMovementModel } from '../models/prediction-movement-model';
-import { IDocumentCommon } from './document-common';
 
-interface IPredictionMovementDocument extends IPredictionMovementModel, IDocumentCommon {
+interface IPredictionMovementDocument extends IPredictionMovementModel, Document {
     updateWith(data: any): void;
 }
 
@@ -18,10 +17,6 @@ const PredictionMovementSchema = new Schema(
 
 PredictionMovementSchema.methods.updateWith = function (data: any): void {
     this._doc = { ...this._doc, ...data };
-}
-
-PredictionMovementSchema.methods.toResource = function (): IPredictionMovementModel {
-    return { ...this._doc }
 }
 
 export const PredictionMovementDocument: Model<IPredictionMovementDocument> = model<IPredictionMovementDocument>(

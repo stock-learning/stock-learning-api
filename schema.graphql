@@ -1,13 +1,95 @@
+scalar DateTime
+
 schema {
     query: Query
+    mutation: Mutation
+    subscription: Subscription
 }
 
 type Query {
     testeQuery: String
-    login(username: String!, password: String!): LoginOutput!
+    login(email: String!, password: String!): LoginOutput!
+    timeline: TimelineOutput
+    companyDataByInitials(initials: String): CompanyData
+    userFollowCompany(initials: String): Boolean
+    companyStockCurrentValue(initials: String): Float
+    tweets(initials: String): [Tweet]
+    currentUserNotification: [NotificationOutput]
+    currentUserQuery: UserOutput!
 }
+
+type Mutation {
+    createUser(user: UserInput): UserOutput
+    currentUserMutation(user: UserInput): UserOutput
+    followCompany(initials: String!, isFollow: Boolean!): Boolean!
+}
+
+type Subscription {
+    newLiveUpdate: NewLiveUpdateOutput
+}
+
+# Inputs
+
+input UserInput {
+    name: String
+    email: String!
+    password: String!
+}
+
+# Outputs
 
 type LoginOutput {
     success: Boolean!
     token: String
+}
+
+type TimelineOutput {
+    data: [Timeline]
+}
+
+type NewLiveUpdateOutput {
+    data: [Timeline]
+}
+
+
+type NotificationOutput {
+    text: String!
+    dateTime: DateTime!
+}
+
+type UserOutput {
+    name: String
+    email: String
+}
+
+# Resources
+
+type CompanyData {
+    id: String!
+    initials: String!
+    name: String
+    logoUrl: String
+    type: String
+    sector: String
+    description: String
+}
+
+type Tweet {
+    id: String!
+    account: String
+    tweet: String
+    cleanText: String
+    createdAt: DateTime
+    statusId: String
+    sentiment: String
+    relatedInitials: [String]
+}
+
+type Timeline {
+    initials: String
+    name: String
+    logoUrl: String
+    description: String
+    porcentage: Float
+    isPositive: Boolean
 }

@@ -1,27 +1,12 @@
-import { RabbitMQServer } from 'stock-learning-rabbitmq';
-import { IResolver } from '../../common/graphql/iresolver';
-import companyDataController from '../../controllers/company-data-controller';
-import { PredictionDocument } from '../../documents/prediction-document';
-import { PredictionPercentageDocument } from '../../documents/prediction-percentage-document';
-import { ITimelineModel } from '../../models/timeline-data-model';
-import { GraphQLContext } from './../../common/graphql/graphql-context';
-import { CompanyDataDocument } from './../../documents/company-data-document';
+import { CompanyDataDocument } from '../documents/company-data-document';
+import { PredictionDocument } from '../documents/prediction-document';
+import { PredictionPercentageDocument } from '../documents/prediction-percentage-document';
+import { ITimelineModel } from '../models/timeline-data-model';
+import { LiveUpdateStockDataDocument } from "./../documents/live-update-stock-data-document";
 
-class TesteResolver implements IResolver<any, any> {
+export class LiveUpdateStockDataController {
 
-    public readonly resolverName = 'testeQuery';
-
-    public async resolve(parent: any, args: any, context: GraphQLContext): Promise<any> {
-
-        // const data = await this.getLiveData();
-        // console.log(data);
-        const initials = await companyDataController.fetchAllCompanyInitials();
-        RabbitMQServer.getInstance().getWebScrapperStub().infomoneyIbovespaLiveUpdate({ initials });
-
-        return 'ola';
-    }
-
-    private async getLiveData(): Promise<ITimelineModel[]> {
+    public async getAsyncData(): Promise<ITimelineModel[]> {
         const companies : any[] = await CompanyDataDocument.find().select({ initials: 1, name: 1, description: 1, _id: 0 });
         const data : any[] = [];
 
@@ -53,12 +38,25 @@ class TesteResolver implements IResolver<any, any> {
                 initials: company.initials,
                 name: company.name,
                 logoUrl: 'https://sjcdh.rs.gov.br/themes/modelo-noticias/images/outros/TH_imgSemImagem.png',
-                description: company.description,
+                description: company.description.substring(1, 37) + "...",
                 porcentage: percentage,
                 isPositive: positive
             });
         }
-        return data;
+
+        return data.sort((a, b) => (a.porcentage > b.porcentage) ? -1 : 1);
+    }
+
+    public async fetchCurrentPriceByInitials(initials: string): Promise<number> {
+        const latestUpdate = await LiveUpdateStockDataDocument.findOne({ name: initials })
+            .select({ _id: 0, value: 1 })
+            .sort({ fetchTime: -1 })
+            .limit(1);
+        if (!latestUpdate?.value) {
+            return latestUpdate?.close || 0;
+        } else {
+            return latestUpdate.value;
+        }
     }
 
     private isPositive(current: number, old: number): boolean {
@@ -74,5 +72,4 @@ class TesteResolver implements IResolver<any, any> {
     }
 }
 
-
-export default new TesteResolver();
+export default new LiveUpdateStockDataController();

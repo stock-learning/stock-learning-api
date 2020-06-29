@@ -1,8 +1,8 @@
-export interface ICompanyDataModel {
+export interface ITimelineModel {
     initials: string;
     name?: string;
     logoUrl?: string;
-    type?: string;
-    sector?: string;
     description?: string;
+    porcentage: number;
+    isPositive: boolean;
 }

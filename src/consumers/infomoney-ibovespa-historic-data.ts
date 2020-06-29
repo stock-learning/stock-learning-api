@@ -9,6 +9,7 @@ export class InfomoneyIbovespaHistoricData implements IConsumer<any> {
 
     public async consume(message: any): Promise<void> {
         if (message.stockData && !!message.stockData.length) {
+            console.log('infomoney-ibovespa-historic-data');
             try {
                 const validData = message.stockData.filter((sd: any) => !!sd && !!sd.name && !!sd.date);
                 const mappedData = this.mapToCollectionFormat(validData);
