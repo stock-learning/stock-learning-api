@@ -1,13 +1,19 @@
-import { Model, model, Schema, SchemaTypes } from 'mongoose';
+import { Document, Model, model, Schema, SchemaTypes } from 'mongoose';
 import { ILiveUpdateStockDataModel } from '../models/live-update-stock-data-model';
-import { IDocumentCommon } from './document-common';
 
-interface ILiveUpdateStockDataDocument extends ILiveUpdateStockDataModel, IDocumentCommon { }
+export interface ILiveUpdateStockDataDocument extends ILiveUpdateStockDataModel, Document {
+    toResource(): ILiveUpdateStockDataResource;
+}
+
+export interface ILiveUpdateStockDataResource extends ILiveUpdateStockDataModel {
+    id: string;
+}
 
 const LiveUpdateStockDataSchema = new Schema(
     {
         name: { type: SchemaTypes.String, required: true },
         fetchTime: { type: SchemaTypes.Date, required: true },
+        value: { type: SchemaTypes.Number, required: false },
         close: { type: SchemaTypes.Number, required: false },
         open: { type: SchemaTypes.Number, required: false },
         business: { type: SchemaTypes.Number, required: false },
@@ -26,8 +32,8 @@ const LiveUpdateStockDataSchema = new Schema(
     }
 )
 
-LiveUpdateStockDataSchema.methods.toResource = function (): ILiveUpdateStockDataModel {
-    return { ...this._doc }
+LiveUpdateStockDataSchema.methods.toResource = function (): ILiveUpdateStockDataResource {
+    return { id: this._id.toString(), ...this._doc }
 }
 
 export const LiveUpdateStockDataDocument: Model<ILiveUpdateStockDataDocument> = model<ILiveUpdateStockDataDocument>(

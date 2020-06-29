@@ -1,4 +1,4 @@
-// import authenticationController from '../../controllers/authentication-controller';
+import authenticationController from '../../controllers/authentication-controller';
 import { GraphQLContext } from './graphql-context';
 import { IResolver } from './iresolver';
 
@@ -78,7 +78,7 @@ export class Resolvers {
 
     private _registerProtected(section: string, resolver: IResolver<any, any>) {
         this._resolvers[section][resolver.resolverName] = async (parent: any, args: any, context: GraphQLContext) => {
-            // await authenticationController.authenticateRequest(context.request);
+            await authenticationController.authenticateRequest(context.request);
             console.warn('Authentication not being executed!');
             return resolver.resolve(parent, args, context);
         };

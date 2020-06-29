@@ -1,10 +1,10 @@
 import moment from 'moment';
 import { IConsumer, RabbitMQServer } from 'stock-learning-rabbitmq';
+import { globalPubSub } from '../common/graphql/graphql-server';
+import { LiveUpdateStockDataController } from '../controllers/live-update-stock-data-controller';
+import newLiveUpdateResolver from '../resolvers/subscription/new-live-update-resolver';
 import { LiveUpdateStockDataDocument } from './../documents/live-update-stock-data-document';
 import { ILiveUpdateStockDataModel } from './../models/live-update-stock-data-model';
-import newLiveUpdateResolver from '../resolvers/subscription/new-live-update-resolver';
-import { LiveUpdateStockDataController } from '../controllers/live-update-stock-data-controller';
-import { globalPubSub } from '../common/graphql/graphql-server';
 
 export class InfomoneyIbovespaLiveUpdate implements IConsumer<any> {
 
@@ -31,6 +31,7 @@ export class InfomoneyIbovespaLiveUpdate implements IConsumer<any> {
                         const doc: ILiveUpdateStockDataModel = new LiveUpdateStockDataDocument();
                         doc.name = rawData.name; // string;
                         doc.fetchTime = moment(rawData.fetchTime).toDate(); // date;
+                        doc.value = strToDouble(rawData.value); // double;
                         doc.close = strToDouble(rawData.close); // double;
                         doc.open = strToDouble(rawData.open); // double;
                         doc.business = strToDouble(rawData.business); // double;

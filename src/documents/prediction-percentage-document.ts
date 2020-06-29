@@ -1,8 +1,7 @@
-import { Model, model, Schema, SchemaTypes } from 'mongoose';
+import { Document, Model, model, Schema, SchemaTypes } from 'mongoose';
 import { IPredictionPercentageModel } from '../models/prediction-percentage-model';
-import { IDocumentCommon } from './document-common';
 
-interface IPredictionPercentageDocument extends IPredictionPercentageModel, IDocumentCommon {
+export interface IPredictionPercentageDocument extends IPredictionPercentageModel, Document {
     updateWith(data: any): void;
 }
 
@@ -19,10 +18,6 @@ const PredictionPercentageSchema = new Schema(
 
 PredictionPercentageSchema.methods.updateWith = function (data: any): void {
     this._doc = { ...this._doc, ...data };
-}
-
-PredictionPercentageSchema.methods.toResource = function (): IPredictionPercentageModel {
-    return { ...this._doc }
 }
 
 export const PredictionPercentageDocument: Model<IPredictionPercentageDocument> = model<IPredictionPercentageDocument>(

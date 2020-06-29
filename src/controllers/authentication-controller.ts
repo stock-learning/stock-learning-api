@@ -42,6 +42,10 @@ export class AuthenticationController {
         return jwt.sign({ userId }, process.env.SECRET || '', { expiresIn: '1h' });
     }
 
+    public async hashPassword(password: string): Promise<string> {
+        return bcrypt.hash(password, 12);
+    }
+
     private async verifyAsync(token: string): Promise<any> {
         return new Promise((resolve, reject) => {
             verify(token, process.env.SECRET || '', (error: VerifyErrors | null, decoded: object | undefined) => {

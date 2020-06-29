@@ -1,7 +1,8 @@
-import { ITimelineModel } from '../models/timeline-data-model';
 import { CompanyDataDocument } from '../documents/company-data-document';
 import { PredictionDocument } from '../documents/prediction-document';
 import { PredictionPercentageDocument } from '../documents/prediction-percentage-document';
+import { ITimelineModel } from '../models/timeline-data-model';
+import { LiveUpdateStockDataDocument } from "./../documents/live-update-stock-data-document";
 
 export class LiveUpdateStockDataController {
 
@@ -43,6 +44,18 @@ export class LiveUpdateStockDataController {
             });
         }
         return data;
+    }
+
+    public async fetchCurrentPriceByInitials(initials: string): Promise<number> {
+        const latestUpdate = await LiveUpdateStockDataDocument.findOne({ name: initials })
+            .select({ _id: 0, value: 1 })
+            .sort({ fetchTime: -1 })
+            .limit(1);
+        if (!latestUpdate?.value) {
+            return latestUpdate?.close || 0;
+        } else {
+            return latestUpdate.value;
+        }
     }
 
     private isPositive(current: number, old: number): boolean {

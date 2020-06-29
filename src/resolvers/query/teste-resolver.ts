@@ -1,4 +1,6 @@
+import { RabbitMQServer } from 'stock-learning-rabbitmq';
 import { IResolver } from '../../common/graphql/iresolver';
+import companyDataController from '../../controllers/company-data-controller';
 import { PredictionDocument } from '../../documents/prediction-document';
 import { PredictionPercentageDocument } from '../../documents/prediction-percentage-document';
 import { ITimelineModel } from '../../models/timeline-data-model';
@@ -11,8 +13,10 @@ class TesteResolver implements IResolver<any, any> {
 
     public async resolve(parent: any, args: any, context: GraphQLContext): Promise<any> {
 
-        const data = await this.getLiveData();
-        console.log(data);
+        // const data = await this.getLiveData();
+        // console.log(data);
+        const initials = await companyDataController.fetchAllCompanyInitials();
+        RabbitMQServer.getInstance().getWebScrapperStub().infomoneyIbovespaLiveUpdate({ initials });
 
         return 'ola';
     }

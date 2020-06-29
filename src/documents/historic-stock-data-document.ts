@@ -1,9 +1,13 @@
-import { Model, model, Schema, SchemaTypes } from 'mongoose';
+import { Document, Model, model, Schema, SchemaTypes } from 'mongoose';
 import { IHistoricStockDataModel } from '../models/historic-stock-data-model';
-import { IDocumentCommon } from './document-common';
 
-export interface IHistoricStockDataDocument extends IHistoricStockDataModel, IDocumentCommon { 
+export interface IHistoricStockDataDocument extends IHistoricStockDataModel, Document {
     updateWith(data: any): void;
+    toResource(): IHistoricStockDataResource;
+}
+
+export interface IHistoricStockDataResource extends IHistoricStockDataModel{
+    id: string;
 }
 
 const HistoricStockDataSchema = new Schema(
