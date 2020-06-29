@@ -23,9 +23,9 @@ import singleCompanyDataByUserResolver from './resolvers/query/company-data-by-i
 import companyStockCurrentValueResolver from './resolvers/query/company-stock-current-value-resolver';
 import currentUserNotification from './resolvers/query/current-user-notification';
 import currentUserQueryResolver from './resolvers/query/current-user-query-resolver';
-import flutterTesteResolver from './resolvers/query/flutter-teste-resolver';
 import loginResolver from './resolvers/query/login-resolver';
 import testeResolver from './resolvers/query/teste-resolver';
+import timelineResolver from './resolvers/query/timeline-resolver';
 import tweetResolver from './resolvers/query/tweets-resolver';
 import userFollowCompanyResolver from './resolvers/query/user-follow-company-resolver';
 import newLiveUpdateResolver from './resolvers/subscription/new-live-update-resolver';
@@ -62,8 +62,8 @@ const resolvers = Resolvers.builder()
     .registerProtectedQuery(userFollowCompanyResolver)
     .registerProtectedQuery(companyStockCurrentValueResolver)
     .registerProtectedQuery(singleCompanyDataByUserResolver)
-    .registerQuery(flutterTesteResolver)
     .registerProtectedMutation(createUserResolver)
+    .registerQuery(timelineResolver)
     .registerQuery(testeResolver)
     .registerQuery(loginResolver)
     .registerSubscription(newLiveUpdateResolver)
