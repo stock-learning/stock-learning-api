@@ -9,7 +9,7 @@ schema {
 type Query {
     testeQuery: String
     login(username: String!, password: String!): LoginOutput!
-    flutterTeste(name: String): FlutterTesteOutput
+    timeline: TimelineOutput
     companyDataByInitials(initials: String): CompanyData
     userFollowCompany(initials: String): Boolean
     companyStockCurrentValue(initials: String): Float
@@ -47,8 +47,8 @@ type LoginOutput {
     token: String
 }
 
-type FlutterTesteOutput {
-    message: String
+type TimelineOutput {
+    data: [Timeline]
 }
 
 type NewLiveUpdateOutput {

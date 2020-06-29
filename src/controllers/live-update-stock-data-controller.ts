@@ -37,12 +37,13 @@ export class LiveUpdateStockDataController {
                 initials: company.initials,
                 name: company.name,
                 logoUrl: 'https://sjcdh.rs.gov.br/themes/modelo-noticias/images/outros/TH_imgSemImagem.png',
-                description: company.description,
+                description: company.description.substring(1, 37) + "...",
                 porcentage: percentage,
                 isPositive: positive
             });
         }
-        return data;
+
+        return data.sort((a, b) => (a.porcentage > b.porcentage) ? -1 : 1);
     }
 
     private isPositive(current: number, old: number): boolean {
