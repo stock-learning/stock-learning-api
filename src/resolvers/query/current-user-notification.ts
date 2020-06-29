@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { IResolver } from '../../common/graphql/iresolver';
 import { GraphQLContext } from './../../common/graphql/graphql-context';
 import { toObjectId } from './../../common/utils/string-utils';
@@ -11,7 +12,12 @@ class CurrentUserNotificationResolver implements IResolver<any, CurrentUserNotif
     public async resolve(parent: any, args: any, context: GraphQLContext): Promise<CurrentUserNotificationOutputModel[]> {
         const userId = toObjectId(context.request.userId);
         const result = await UserDocument.findOne({ _id: userId });
-        return result?.notifications || [];
+        return result?.notifications?.map(n => {
+            return {
+                dateTime: moment(n.dateTime).toDate(),
+                text: n.text
+            };
+        }) || [];
     }
 }
 

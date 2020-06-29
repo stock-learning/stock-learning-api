@@ -78,8 +78,9 @@ export class Resolvers {
 
     private _registerProtected(section: string, resolver: IResolver<any, any>) {
         this._resolvers[section][resolver.resolverName] = async (parent: any, args: any, context: GraphQLContext) => {
+            console.log(context?.request?.headers);
             await authenticationController.authenticateRequest(context.request);
-            console.warn('Authentication not being executed!');
+            // console.warn('Authentication not being executed!');
             return resolver.resolve(parent, args, context);
         };
     }
