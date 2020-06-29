@@ -24,6 +24,7 @@ import companyStockCurrentValueResolver from './resolvers/query/company-stock-cu
 import currentUserNotification from './resolvers/query/current-user-notification';
 import currentUserQueryResolver from './resolvers/query/current-user-query-resolver';
 import loginResolver from './resolvers/query/login-resolver';
+import stockDataPredictionResolver from './resolvers/query/stock-data-prediction-resolver';
 import testeResolver from './resolvers/query/teste-resolver';
 import timelineResolver from './resolvers/query/timeline-resolver';
 import tweetResolver from './resolvers/query/tweets-resolver';
@@ -56,6 +57,7 @@ const consumers = ConsumerMap.builder()
 const resolvers = Resolvers.builder()
     .registerProtectedMutation(followCompanyResolver)
     .registerProtectedMutation(currentUserMutationResolver)
+    .registerProtectedQuery(stockDataPredictionResolver)
     .registerProtectedQuery(currentUserQueryResolver)
     .registerProtectedQuery(currentUserNotification)
     .registerProtectedQuery(tweetResolver)

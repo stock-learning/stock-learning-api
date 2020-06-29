@@ -10,6 +10,10 @@ export class CompanyDataController {
         return (await CompanyDataDocument.find({}).select({ initials: 1, _id: 0 })).map(cd => cd.initials);
     }
 
+    public async fetchAllCompanyNames(): Promise<string[]> {
+        return (await CompanyDataDocument.find({}).select({ name: 1, sector: 1, _id: 0 })).map(cd => `${cd.name} ${cd.sector}`);
+    }
+
     public async fetchCompanyNewsRequestData(): Promise<CompanyNewsRequestDataModel[]> {
         const toReturn = (await Promise.all((await CompanyDataDocument.find({}).select({ initials: 1, name: 1, sector: 1, _id: 0 }))
             .map(async cd => {
