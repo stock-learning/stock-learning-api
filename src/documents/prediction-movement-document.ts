@@ -8,6 +8,7 @@ interface IPredictionMovementDocument extends IPredictionMovementModel, Document
 const PredictionMovementSchema = new Schema(
     {
         initials: { type: SchemaTypes.String, required: true },
+        date: { type: SchemaTypes.Date, required: true },
         isSell: { type: SchemaTypes.Boolean, required: true },
     },
     {
