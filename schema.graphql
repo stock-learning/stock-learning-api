@@ -16,6 +16,7 @@ type Query {
     tweets(initials: String): [Tweet]
     currentUserNotification: [NotificationOutput]
     currentUserQuery: UserOutput!
+    stockDataPrediction(initials: String!): [StockDataPredictionOutput]
 }
 
 type Mutation {
@@ -55,6 +56,12 @@ type NewLiveUpdateOutput {
 type NotificationOutput {
     text: String!
     dateTime: DateTime!
+}
+
+type StockDataPredictionOutput {
+    isSell: Boolean!
+    dateTime: DateTime!
+    value: Float
 }
 
 type UserOutput {

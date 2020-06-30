@@ -13,7 +13,7 @@ class CompanyDataByInitialsResolver implements IResolver<IInitialsInputModel, IC
         if (!doc) {
             throw new ApolloError(`CompanyData for '${args.initials}' not found`, '404');
         }
-        return doc.toResource();
+        return { logoUrl: 'https://sjcdh.rs.gov.br/themes/modelo-noticias/images/outros/TH_imgSemImagem.png', ...doc.toResource()};
         // return {
         //     initials: 'TIMP3',
         //     name: 'TIM Participações',

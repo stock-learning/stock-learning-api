@@ -21,10 +21,10 @@ export class InfomoneyIbovespaLiveUpdate implements IConsumer<any> {
                                 return 0;
                             }
                             if (str.includes('%')) {
-                                return +str.split('%').join('');
+                                return +str.split('%').join('') || 0;
                             } else {
                                 return +str.split('.').join('')
-                                           .split(',').join('.');
+                                           .split(',').join('.') || 0;
                             }
                         }
 
