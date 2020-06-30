@@ -9,7 +9,10 @@ export class GetDailyCompanies implements IConsumer<any> {
     public async consume(message: any): Promise<void> {
         const dailyRecords = (await LiveUpdateStockDataDocument.find({
             fetchTime : { $gt : moment().subtract(3, 'weeks').toDate() }
-        })).map(doc => (doc.toResource() as any));
+        })).map(doc => doc.toResource()).map(r => {
+            delete r['id'];
+            return (r as any);
+        });
 
         const mapper = {isPredict: 1, stocks: dailyRecords};
         RabbitMQServer.getInstance().getAnalyserStub().realTimeValueAdditionHandler(mapper);
